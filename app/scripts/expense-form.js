@@ -1,0 +1,27 @@
+
+Vue.component('expense-form', {
+  template: `
+  <div class="expense-form__container form">
+    <h2 class="expenses__heading">Add new expense:</h2>
+
+    <form id="new_expense_form" class="form">
+      <label for="new_expense_title" class="form__label">Title</label>
+      <input type="text" id="new_expense_title" class="form__input"></input>
+      <label for="new_expense_price" class="form__label">Price:</label>
+      <input type="text" id="new_expense_price" class="form__input"></input>
+      <label for="new_expense_date" class="form__label">Date:</label>
+      <input type="date" id="new_expense_date" class="form__input"></input>
+      <label for="new_expense_category" class="form__label">Category:</label>
+      <select id="new_expense_select" class="form__input">
+        <option value="category__food">Food</option>
+        <option value="category__clothes">Clothes</option>
+        <option value="category__home">Home things</option>
+      </select>
+      <button type="submit" id="new_expense_button" class="button">Add</button>
+    </form>
+  </div>
+
+  `
+  // props: ['title', 'price', 'date', 'category']
+
+});

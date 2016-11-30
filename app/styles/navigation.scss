@@ -1,0 +1,29 @@
+@import "colors";
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+}
+
+.navigation__logo {
+  font-size: 36px;
+  font-weight: bold;
+  text-decoration: none;
+  color: $color-red;
+  padding-left: 20px;
+}
+
+.navigation__list {
+  display: flex;
+  list-style: none;
+}
+
+.navigation__list-link {
+  text-decoration: none;
+  color: $color-red;
+  padding: 20px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
