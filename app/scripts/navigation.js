@@ -8,16 +8,20 @@ Vue.component('navigation', {
       </li>
 
       <li class="navigation__list-item">
-        <router-link to="/expenses" class="navigation__list-link">Your Expenses</router-link>
+        <router-link v-if="login" to="/expenses" class="navigation__list-link">Your Expenses</router-link>
       </li>
 
       <li class="navigation__list-item">
-        <a v-if="login" href="/home" class="navigation__list-link" @click.prevent="">Log Out</a>
+        <router-link v-if="login" to="/statistics" class="navigation__list-link">Stats</router-link>
+      </li>
+
+      <li class="navigation__list-item">
+        <router-link v-if="login" to="/profile" class="navigation__list-link">Profile</router-link>
+      </li>
+
+      <li class="navigation__list-item">
+        <a v-if="login" href="/home" class="navigation__list-link" @click.prevent="logoutUser">Log Out</a>
         <router-link v-else to="/login" class="navigation__list-link">Log In</router-link>
-      </li>
-
-      <li class="navigation__list-item">
-        <a href="#" class="navigation__list-link">Help</a>
       </li>
     </ul>
   </nav>`,
@@ -33,16 +37,29 @@ Vue.component('navigation', {
       this.login = data.login;
     });
 
-    this.logoutResource = this.$resource('logout');
+    this.logoutResource = this.$resource('api/logout');
+    if (localStorage.login && localStorage.token) {
+      Vue.http.headers.common['Authorization'] = localStorage.token;
+      bus.$emit('user-loggedin', {login: localStorage.login});
+    }
 
   },
 
   methods: {
     logoutUser() {
-      this.logoutResource.save()
-        .then((response) => {
-          bus.$emit('user-loggedin', {login: this.login});
-        });
+      this.logoutResource.save({}, {token: localStorage.token})
+      .then((response) => {
+        delete Vue.http.headers.common['Authorization'];
+        this.login = '';
+        bus.$emit('user-loggedout');
+        console.log("logout!");
+        this.$router.push('/');
+        localStorage.removeItem("login");
+        localStorage.removeItem("token");
+
+      }).catch((error) => {
+        console.log(error);
+      })
     }
   }
 });

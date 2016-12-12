@@ -1,59 +1,126 @@
 const ExpenseList = {
   template: `
-  <div class="expenses">
-    <h2 class="expenses__heading">Latest Expenses:</h2>
-    Sort by:
-    <select @change="sortExpenses(sort)" v-model="sort">
-      <option value="low_to_high">Price low to high</option>
-      <option value="high_to_low">Price high to low</option>
-      <option value="latest">Date - latest</option>
-      <option value="oldest">Date - oldest</option>
-    </select>
-    <ul class="expenses__list">
-      <expense-item v-for="expense in expenses" :title="expense.title" :price="expense.price" :date="expense.date" :category="expense.category"></expense-item>
-    </ul>
-    <expense-form></expense-form>
+  <div class="expenses-container">
+    <div class="tabs tab-nav">
+      <ul>
+        <li :class="{'is-active': visible==='expenses-list'}" class="" @click.prevent="visible='expenses-list'"><a>All Expenses</a></li>
+        <li :class="{'is-active': visible==='expense-new'}" class="" @click.prevent="visible='expense-new'"><a>New Expense</a></li>
+        <li :class="{'is-active': visible==='category-new'}" class="" @click.prevent="visible='category-new'"><a>New Category</a></li>
+      </ul>
+    </div>
+    <div class="expenses" v-show="visible === 'expenses-list'">
+      <div class="level">
+        <div class="level-left">
+          <h2 class="title title-1 cursor-pointer">Your Expenses:</h2>
+        </div>
+
+        <div class="level-right">
+          <label class="label">Sort by:</label>
+          <p class="control">
+            <span class="select">
+              <select @change="sortExpenses(sort)" v-model="sort">
+                <option v-for="option in sortOptions" v-bind:value="option.value">
+                  {{ option.name }}
+                </option>
+              </select>
+            </span>
+          </p>
+        </div>
+      </div>
+      <div class="box">
+        <table class="table is-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Price [zl]</th>
+              <th>Date</th>
+              <th>Category</th>
+            </tr>
+          </thead>
+          <tbody>
+            <expense-item v-for="expense in expenses" :name="expense.name" :dateOfExpense="expense.dateOfExpense" :value="expense.value" :category="expense.category"></expense-item>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div v-show="visible === 'expense-new'">
+      <expense-new></expense-new>
+    </div>
+    <div v-show="visible === 'category-new'">
+      <category-new></category-new>
+    </div>
   </div>
   `,
   data() {
     return {
-      expenses: [{
-        title: 'buty',
-        price: '100$',
-        date: '02-04-2016',
-        category: 'food'
-      },
-      {
-        title: 'spodnie',
-        price: '99$',
-        date: '02-04-2016',
-        category: 'clothes'
-      },
-      {
-        title: 'warzywa',
-        price: '12$',
-        date: '12-10-2016',
-        category: 'food'
-      },
-      sort: 'latest'
+      sort: 'dateDesc',
+      sortOptions:  [
+        {
+          value: 'priceAsc',
+          name: 'Price low to high'
+        },
+        {
+          value: 'priceDesc',
+          name: 'Price high to low'
+        },
+        {
+          value: 'dateAsc',
+          name: 'Date - oldest'
+        },
+        {
+          value: 'dateDesc',
+          name: 'Date - latest'
+        }
+      ],
+      expenses: [],
+      visible: 'expenses-list'
     }
   },
 
   created() {
-    this.expensesResource = this.$resource('api/expense/list{/sortType}');
+    this.expensesResource = this.$resource('api/expense/list');
+    this.sortResource = this.$resource('api/expense/list/sort{/sortType}')
 
-   this.getExpenses();
+    this.getExpenses();
   },
 
   methods: {
     sortExpenses(sortType) {
-      console.log(sortType);
+      this.sortResource.get({sortType: sortType})
+      .then((response) => {
+        response.json().then((json) => {
+          const expenses = json.map((expense) => {
+            var time = moment(expense.dateOfExpense);
+            return {
+              name: expense.name,
+              value: expense.value,
+              dateOfExpense: time.format('DD/MM/YYYY'),
+              category: expense.category.categoryName
+            };
+          })
+          console.log(expenses, 'nowe');
+          this.$set(this, 'expenses', expenses);
+        });
+      });
     },
 
     getExpenses() {
       this.expensesResource.get().then((response) => {
-        this.expenses = response.json();
+        response.json().then((json) => {
+          const expenses = json.map((expense) => {
+            var time = moment(expense.dateOfExpense);
+            return {
+              name: expense.name,
+              value: expense.value,
+              dateOfExpense: time.format('DD/MM/YYYY'),
+              category: expense.category.categoryName
+            };
+          })
+          console.log(expenses);
+          this.$set(this, 'expenses', expenses);
+        });
       });
-    }
+    },
+
   }
 };

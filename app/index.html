@@ -8,9 +8,12 @@
 
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.2.3/css/bulma.css">
   <!-- Place favicon.ico in the root directory -->
 
   <!-- build:css styles/vendor.css -->
+  <link rel="stylesheet" href="styles/font-awesome.css">
   <!-- bower:css -->
   <!-- endbower -->
   <!-- endbuild -->
@@ -26,20 +29,39 @@
     <router-view></router-view>
   </div>
 
+
   <!-- build:js scripts/vendor.js -->
   <!-- bower:js -->
   <script src="/bower_components/jquery/dist/jquery.js"></script>
+  <script src="/bower_components/jquery-ui/jquery-ui.js"></script>
   <!-- endbower -->
+
+  <script src="/bower_components/vue/dist/vue.js"></script>
+  <script src="/bower_components/vue-resource/dist/vue-resource.js"></script>
+  <script src="/bower_components/vue-router/dist/vue-router.js"></script>
+  <script src="/bower_components/moment/moment.js"></script>
+  <script src="/bower_components/chart.js/dist/Chart.js"></script>
   <!-- endbuild -->
   <script src="scripts/eventBus.js"></script>
   <!-- build:js scripts/main.js -->
+  <script src="https://unpkg.com/chart.js@2.4.0/dist/Chart.bundle.js"></script>
+  <script src="https://unpkg.com/chartkick@2.2.1"></script>
 
   <script src="scripts/navigation.js"></script>
-  <script src="scripts/expense-form.js"></script>
+  <script src="scripts/category-new.js"></script>
+  <script src="scripts/expense-new.js"></script>
   <script src="scripts/expense-list.js"></script>
   <script src="scripts/expense-item.js"></script>
   <script src="scripts/login.js"></script>
+  <script src="scripts/register.js"></script>
   <script src="scripts/home.js"></script>
+  <script src="scripts/statistics.js"></script>
+  <script src="scripts/chart1.js"></script>
+  <script src="scripts/chart2.js"></script>
+  <script src="scripts/chart3.js"></script>
+  <script src="scripts/password-change.js"></script>
+  <script src="scripts/report-change.js"></script>
+  <script src="scripts/profile.js"></script>
   <script src="scripts/app.js"></script>
   <!-- endbuild -->
 </body>

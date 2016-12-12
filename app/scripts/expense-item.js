@@ -1,12 +1,12 @@
 Vue.component('expense-item', {
   template: `
-  <li class="expense__item expense">
-    <span class="expense__title"> {{ title }} </span>
-    <span class="expense__price"> {{ price }} </span>
-    <span class="expense__date"> {{ date }} </span>
-    <span class="expense__category"> {{ category }} </span>
-  </li>
+  <tr>
+    <td> {{ name }} </td>
+    <td> {{ value }} </td>
+    <td> {{ dateOfExpense }} </td>
+    <td> {{ category }} </td>
+  </tr>
   `,
-  props: ['title', 'price', 'date', 'category']
+  props: ['name', 'value', 'dateOfExpense', 'category']
 
 });
