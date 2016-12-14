@@ -12,7 +12,7 @@ Vue.component('chart-monthly', {
   },
 
   created() {
-    this.statisticsExpense = this.$resource('api/expense/list/sort/dateAsc');
+    this.statisticsExpense = this.$resource('api/statistic/day');
   },
 
   methods: {
@@ -25,7 +25,7 @@ Vue.component('chart-monthly', {
       this._monthChart = new Chart(this.$refs.monthChart, {
         type: 'line',
         data: {
-          labels: data.dateOfExpense,
+          labels: data.label,
           datasets: [{
             label: 'Monthly',
             data: data.value,
@@ -64,13 +64,13 @@ Vue.component('chart-monthly', {
       this.statisticsExpense.get().then((response) => {
         response.json().then((json) => {
           const stats = {
-            dateOfExpense: [],
+            label: [],
             value: []
           };
           json.forEach((statistic) => {
             var time = moment(statistic.dateOfExpense);
             var time2 = time.format('DD/MM/YYYY');
-            stats.dateOfExpense.push(time2);
+            stats.label.push(statistic.day + '/' + statistic.month + '/' + statistic.year);
             stats.value.push(statistic.value);
           });
           this.initChart(stats);

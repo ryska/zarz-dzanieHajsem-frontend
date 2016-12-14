@@ -38,8 +38,6 @@ Vue.component('register-form', {
           registerUser() {
             this.registerResource.save({}, {login: this.login, password: this.password, report: this.report})
             .then((response) => {
-              localStorage.setItem("report", this.report);
-              console.log(localStorage.report);
               alert('Yay! You are succesfully registered!');
             });
           }

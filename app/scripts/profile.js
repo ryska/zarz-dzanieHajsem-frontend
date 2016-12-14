@@ -4,14 +4,5 @@ const Profile = {
     <change-password></change-password>
     <change-report></change-report>
   </div>
-  `,
-
-  created() {
-  },
-
-  methods: {
-
-  },
-
-
+  `
 };

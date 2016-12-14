@@ -20,26 +20,29 @@ Vue.component('change-password', {
         </form>
         `,
 
-        mounted() {
-          this.passwordResource = this.$resource('api/user/changePassword');
-        },
+  mounted() {
+    this.passwordResource = this.$resource('api/user/changePassword');
+  },
 
-        data() {
-          return {
-            password: '',
-            newPassword: '',
-            confirmedPassword: ''
-          }
-        },
+  data() {
+    return {
+      password: '',
+      newPassword: '',
+      confirmedPassword: ''
+    };
+  },
 
-        methods: {
-          changePassword() {
-            this.passwordResource.save({}, {oldPassword: this.password, newPassword: this.newPassword, confirmedPassword: this.confirmedPassword })
-            .then((response) => {
-              console.log('Password changed');
-            }).catch((error) => {
-              console.log(error);
-            });
-          }
-        }
+  methods: {
+    changePassword() {
+      this.passwordResource.save({}, {oldPassword: this.password, newPassword: this.newPassword, confirmedPassword: this.confirmedPassword })
+      .then(() => {
+        alert('Password changed');
+      }).catch( (response) => {
+        response.json().then(() => {
+          var error = response.body.response;
+          alert(error);
+        });
       });
+    }
+  }
+});
