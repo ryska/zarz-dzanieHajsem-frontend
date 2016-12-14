@@ -52,6 +52,7 @@ Vue.component('expense-new', {
         value: this.price,
         dateOfExpense: this.date
       }).then((response) => {
+        bus.$emit('new-expense');
         console.log('dodalem!');
       });
     },

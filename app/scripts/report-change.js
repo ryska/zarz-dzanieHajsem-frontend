@@ -4,31 +4,32 @@ Vue.component('change-report', {
     <p class="control">
       <label class="checkbox">
         <input type="checkbox" v-model="report">
-          I want to receive emails
+          I want to receive reminder emails
         </label>
       </p>
       <button type="submit" class="button is-primary">Save</button>
     </form>
     `,
 
-    mounted() {
-      this.reportResource = this.$resource('api/user/changeReport');
-    },
+  mounted() {
+    this.reportResource = this.$resource('api/user/changeReport');
+  },
 
-    data() {
-      return {
-        report: localStorage.report
-      }
-    },
+  data() {
+    return {
+      report: User.getReport()
+    };
+  },
 
-    methods: {
-      updateReport() {
-        this.reportResource.save({}, { newReport: this.report })
-        .then((response) => {
-          console.log('Report changed');
-        }).catch((error) => {
-          console.log(error);
-        });
-      }
+  methods: {
+    updateReport() {
+      this.reportResource.save({}, { newReport: this.report })
+      .then((response) => {
+        User.setReport(this.report);
+        console.log('Report changed', this.report, typeof this.report);
+      }).catch((error) => {
+        console.log(error);
+      });
     }
-  });
+  }
+});

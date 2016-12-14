@@ -32,33 +32,27 @@ const Login = {
       </div>
       `,
 
-      created() {
-        this.loginResource = this.$resource('api/login');
-      },
+  created() {
+    this.loginResource = this.$resource('api/login');
+  },
 
-      data() {
-        return {
-          visible: 'login',
-          login: '',
-          password: ''
-        }
-      },
-
-      methods: {
-        loginUser() {
-          this.loginResource.save({}, {login: this.login, password: this.password})
-          .then((response) => {
-            response.json().then((json) => {
-              Vue.http.headers.common['Authorization'] = json.token;
-              localStorage.setItem("login", this.login);
-              localStorage.setItem("token", json.token);
-
-              bus.$emit('user-loggedin', {login: this.login});
-              this.$router.push('/expenses');
-
-              console.log(localStorage.login, localStorage.token);
-            })
-          });
-        },
-      },
+  data() {
+    return {
+      visible: 'login',
+      login: '',
+      password: ''
     };
+  },
+
+  methods: {
+    loginUser() {
+      this.loginResource.save({}, {login: this.login, password: this.password})
+      .then((response) => {
+        response.json().then((json) => {
+          User.login(this.login, json.token, json.reportValue);
+          this.$router.push('/expenses');
+        })
+      });
+    },
+  }
+};

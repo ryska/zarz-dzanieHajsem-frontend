@@ -27,7 +27,7 @@ Vue.component('chart-category', {
         data: {
           labels: data.label,
           datasets: [{
-            label: '# of Votes',
+            label: 'By Category',
             data: data.value,
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',

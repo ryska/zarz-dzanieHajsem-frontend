@@ -15,7 +15,7 @@ Vue.component('register-form', {
         <p class="control">
           <label class="checkbox">
             <input type="checkbox" v-model="report">
-              I want to receive emails
+              I want to receive reminder emails
             </label>
           </p>
           <button type="submit" class="button is-primary">Sign Up</button>

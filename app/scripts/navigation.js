@@ -28,38 +28,29 @@ Vue.component('navigation', {
 
   data() {
     return {
-      login: ''
-    }
+      login: User.getLogin()
+    };
   },
 
   created() {
-    bus.$on('user-loggedin', (data) => {
-      this.login = data.login;
+    bus.$on('user-loggedin', () => {
+      this.login = User.getLogin();
     });
 
     this.logoutResource = this.$resource('api/logout');
-    if (localStorage.login && localStorage.token) {
-      Vue.http.headers.common['Authorization'] = localStorage.token;
-      bus.$emit('user-loggedin', {login: localStorage.login});
-    }
-
   },
 
   methods: {
     logoutUser() {
-      this.logoutResource.save({}, {token: localStorage.token})
+      this.logoutResource.save({}, {token: User.getToken()})
       .then((response) => {
-        delete Vue.http.headers.common['Authorization'];
         this.login = '';
-        bus.$emit('user-loggedout');
         console.log("logout!");
+        User.logout();
         this.$router.push('/');
-        localStorage.removeItem("login");
-        localStorage.removeItem("token");
-
       }).catch((error) => {
         console.log(error);
-      })
+      });
     }
   }
 });

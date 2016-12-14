@@ -81,6 +81,10 @@ const ExpenseList = {
     this.expensesResource = this.$resource('api/expense/list');
     this.sortResource = this.$resource('api/expense/list/sort{/sortType}')
 
+    bus.$on('new-expense', () => {
+      this.getExpenses();
+    });
+
     this.getExpenses();
   },
 

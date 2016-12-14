@@ -27,7 +27,7 @@ Vue.component('chart-monthly', {
         data: {
           labels: data.label,
           datasets: [{
-            label: 'Monthly',
+            label: 'Daily',
             data: data.value,
             backgroundColor: [
               'rgba(153, 102, 255, 0.2)',
